@@ -1,8 +1,8 @@
 /*
     @authorName : unrival
-    @createTime : 2022-10-5
+    @createTime : 2022-10-6
     @description : http服务器入口
-    @version : 0.1
+    @version : 0.2
 */
 'use strict';
 function GetRequest(query) {
@@ -44,6 +44,8 @@ var http = require('http'),
             //require前清除缓存，可以在不重启node.js的情况下更改js文件
             var main = require('./function'+path);
             //根据用户请求的目录引入function下对应的js文件
+            main($_GET,headers,response);
+            //向功能传入url参数、headers和用于回调的response
         }catch(e){
             let errCode = 404,msg = 'Function Not Found';
             if(e.name!='Error'){
@@ -57,9 +59,7 @@ var http = require('http'),
             response.end(msg);
             return;
         }
-        main($_GET,headers,response);
-        //向功能传入url参数、headers和用于回调的response
-    return;
+        return;
 });
 // 让服务器监听8080端口:
 server.listen(8080);
